@@ -117,3 +117,24 @@ body {
 .order-15 {
     order: 15;
 }
+
+#congratulations-message {
+    width: 100%;
+    text-align: center;
+}
+
+.not-show {
+    display: none; 
+}
+
+#check-circle {
+    font-size: 64px;
+}
+
+button {
+    background-color: #2db79e;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+}

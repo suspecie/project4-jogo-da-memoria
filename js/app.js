@@ -38,17 +38,25 @@ function countCards() {
 }
 
 /**
+ * Remove todas as classes order
+ */
+function removeAllClassOrder(arrayCards) {
+    arrayCards.forEach((el, index) => {
+        $(`#card-${index}`).removeClass(`order-${el}`);
+    });
+}
+
+/**
  * Adiciona a classe order no array embaralhado.
  */
 function addClassOrder() {
     const arrayCards = countCards();
     const arrayShuffle = shuffle(arrayCards);
-
+    removeAllClassOrder(arrayCards);
     arrayShuffle.forEach((el, index) => {
         $(`#card-${index}`).addClass(`order-${el}`);
     });
 }
-
 
 /**
  * Mostra a carta.
@@ -66,6 +74,15 @@ function closedCard(id) {
     $(`#${id}`).addClass('closed');
     $(`#${id}`).removeClass('open');
     $(`#${id}`).removeClass('wrong');
+}
+
+/**
+ * Fecha todas as cartas/
+ */
+function closedAllCards() {
+    $('.card').removeClass('open');
+    $('.card').removeClass('match');
+    $('.card').addClass('closed');
 }
 
 /**
@@ -142,6 +159,43 @@ function turnWrongCards(currentCard) {
 }
 
 /**
+ * Exibe a mensagem de parabéns.
+ */
+function showCongratulationsMessage() {
+    $('#congratulations-message').removeClass('not-show');
+    $('#pack-cards').addClass('not-show');
+    $('header').addClass('not-show');
+}
+
+/**
+ * Esconde a mensagem de parabéns e mostra jogo.
+ */
+function hideCongratulationsMessage() {
+    $('#congratulations-message').addClass('not-show');
+    $('#pack-cards').removeClass('not-show');
+    $('header').removeClass('not-show');
+}
+
+
+/**
+ * Se ainda existir algum card com a classe closed retorna true,
+ * se não retorna false. Se retornar false, o jogo acabou.
+ */
+function gameContinues() {
+    return $('.card').hasClass('closed');
+}
+
+/**
+ * Começa um novo jogo
+ */
+function startNewGame() {
+    closedAllCards();
+    resetVariables();
+    addClassOrder();
+    hideCongratulationsMessage();
+}
+
+/**
  * Inicia o Jogo embaralhando as cartas.
  */
 $(function () {
@@ -167,6 +221,9 @@ $('.card').click(function () {
             console.log('is match!!');
             addMatchClass(id);
             resetVariables();
+            if (!gameContinues()) {
+                showCongratulationsMessage();
+            }
         } else {
             console.log('not match.');
             addWrongClass(id);
