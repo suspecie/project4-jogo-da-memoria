@@ -98,6 +98,14 @@ function addMatchClass(currentCard) {
     $(`#${lastCardClicked}`).addClass('match');
 }
 
+/**
+ * Marca  as cartas que não são iguais
+ */
+function addWrongClass(currentCard) {
+    $(`#${currentCard}`).addClass('wrong');
+    $(`#${lastCardClicked}`).addClass('wrong');
+}
+
 
 /**
  * Verifica se a dupla de cartas são iguais.
@@ -160,6 +168,7 @@ $('.card').click(function () {
             addMatchClass(id);
         } else {
             console.log('not match.');
+            addWrongClass(id);
         }
     }
 });

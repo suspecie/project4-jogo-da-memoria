@@ -43,6 +43,12 @@ body {
     font-size: 33px;
 }
 
+.card.wrong {
+    background: #de4242;
+    font-size: 33px;
+    cursor: default;
+}
+
 .disabled-click{
     pointer-events: none;
 }
