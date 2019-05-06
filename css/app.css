@@ -43,6 +43,10 @@ body {
     font-size: 33px;
 }
 
+.disabled-click{
+    pointer-events: none;
+}
+
 
 .order-0 {
     order: 0;

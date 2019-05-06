@@ -1,13 +1,13 @@
 /**
  * Variavel Global
  */
-let lastCardCliked = '';
-let idLastCardClicked = '';
-let cardsShow = 0;
+let countClick = 0;
+let lastCardClicked = '';
+let lastIconDisplayed = '';
 
 
 /**
- * Embaralha o array
+ * Embaralha o array.
  * Método utilizado do http://stackoverflow.com/a/2450976
  */
 function shuffle(array) {
@@ -16,6 +16,7 @@ function shuffle(array) {
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
+
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -37,7 +38,7 @@ function countCards() {
 }
 
 /**
- * Adiciona a classe order embaralhada em cada card.
+ * Adiciona a classe order no array embaralhado.
  */
 function addClassOrder() {
     const arrayCards = countCards();
@@ -47,6 +48,56 @@ function addClassOrder() {
         $(`#card-${index}`).addClass(`order-${el}`);
     });
 }
+
+
+/**
+ * Mostra a carta.
+ */
+function showCard(id) {
+    $(`#${id}`).addClass('open');
+    $(`#${id}`).removeClass('closed');
+    return $(`#${id}`).children().attr('class');
+}
+
+/**
+ * Verifica quantidade de clicks
+ */
+function verifyNumberOfClicks(qtd) {
+    return countClick === qtd ? true : false;
+}
+
+/**
+ * Verifica se é a primeira carta do par a ser mostrada.
+ */
+function isFirstCardOfPair() {
+    countClick++;
+    console.log('countClick', countClick);
+    return verifyNumberOfClicks(1);
+}
+
+/**
+ * Verifica se é a segunda carta do par a ser mostrada.
+ */
+function isSecondCardOfPair() {
+    return verifyNumberOfClicks(2);
+}
+
+/**
+ * Desabilita o clique de uma carta aberta.
+ * @param {*} id 
+ */
+function disabledClick(id) {
+    $(`#${id}`).addClass('disabled-click');
+}
+
+/**
+ * Desabilita o clique de todas as cartas fechadas.
+ */
+function disabledAllClick() {
+    $('.closed').addClass('disabled-click')
+}
+
+
 
 /**
  * Verifica se a dupla de cartas são iguais.
@@ -80,20 +131,31 @@ function compareCoupleCards(idCard, cardClicked) {
     }
 }
 
-/**
- * Mostra a carta e compara se é igual
- */
-$('.card').click(function (evt) {
-    const id = $(this).attr('id');
-    $(`#${id}`).addClass('open');
-    const iconClicked = $(`#${id}`).children().attr('class');
-    compareCoupleCards(id, iconClicked);
-});
+
 
 /**
- * Inicia o Jogo embaralhando as cartas
+ * Inicia o Jogo embaralhando as cartas.
  */
 $(function () {
     addClassOrder();
 });
 
+/**
+ * Chama as regras ao clicar nas cartas.
+ */
+$('.card').click(function () {
+    const id = $(this).attr('id');
+    const iconDisplayed = showCard(id);
+    if(isFirstCardOfPair()){
+        console.warn('primeiro click', id, iconDisplayed);
+        lastCardClicked = id;
+        lastIconDisplayed = iconDisplayed;
+        disabledClick(id);
+    } else  if (isSecondCardOfPair()){
+        console.warn('segundo click', id, iconDisplayed);
+        disabledClick(id);
+        disabledAllClick();
+    } else {
+        console.warn('outro click');
+    }
+});
