@@ -65,6 +65,7 @@ function showCard(id) {
 function closedCard(id) {
     $(`#${id}`).addClass('closed');
     $(`#${id}`).removeClass('open');
+    $(`#${id}`).removeClass('wrong');
 }
 
 /**
@@ -92,6 +93,13 @@ function disabledAllClick() {
 }
 
 /**
+ * Habilita o clique em todas as cartas fechadas.
+ */
+function enableAllClick() {
+    $('.closed').removeClass('disabled-click');
+}
+
+/**
  * Verifica se o par é igual ou não
  */
 function isMatchPair(currentIconDisplayed) {
@@ -115,55 +123,23 @@ function addWrongClass(currentCard) {
 }
 
 /**
+ * Reinica as variaveis.
+ */
+function resetVariables() {
+    countClick = 0;
+    lastCardClicked = '';
+    lastIconDisplayed = '';
+    enableAllClick();
+}
+
+/**
  * Vira as cartas erradas.
  */
 function turnWrongCards(currentCard) {
     closedCard(currentCard);
     closedCard(lastCardClicked);
+    resetVariables();
 }
-
-/**
- * Reinica as variaveis.
- */
-function reset() {
-    countClick = 0;
-    lastCardClicked = '';
-    lastIconDisplayed = '';
-}
-
-/**
- * Verifica se a dupla de cartas são iguais.
- * Se for igual muda a cor para verde e deixa as cartas para cima.
- * Se não for igual vira a carta para baixo.
- * Se virou duas cartas e não são iguais vira a dupla para baixo.
- */
-function compareCoupleCards(idCard, cardClicked) {
-    cardsShow++;
-    if (cardsShow <= 1) {
-        idLastCardClicked = idCard;
-        lastCardCliked = cardClicked;
-        console.log('cliquei a primeira vez', lastCardCliked);
-    } else {
-        if (lastCardCliked === cardClicked) {
-            $(`#${idCard}`).addClass('match');
-            $(`#${idLastCardClicked}`).addClass('match');
-
-            console.log('é igual');
-        } else {
-            setTimeout(function () {
-                console.log('entrei no setimeout');
-                $(`#${idCard}`).removeClass('open');
-                $(`#${idLastCardClicked}`).removeClass('open');
-                lastCardCliked = '';
-                idLastCardClicked = '';
-                cardsShow = 0;
-            }, 2000);
-            console.log('nao é igual');
-        }
-    }
-}
-
-
 
 /**
  * Inicia o Jogo embaralhando as cartas.
@@ -190,12 +166,13 @@ $('.card').click(function () {
         if (isMatchPair(iconDisplayed)) {
             console.log('is match!!');
             addMatchClass(id);
+            resetVariables();
         } else {
             console.log('not match.');
             addWrongClass(id);
             setTimeout(function() {
                 turnWrongCards(id);
-            });
+            }, 2000);
         }
     }
 });
