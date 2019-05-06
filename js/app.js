@@ -60,26 +60,12 @@ function showCard(id) {
 }
 
 /**
- * Verifica quantidade de clicks
- */
-function verifyNumberOfClicks(qtd) {
-    return countClick === qtd ? true : false;
-}
-
-/**
  * Verifica se é a primeira carta do par a ser mostrada.
  */
 function isFirstCardOfPair() {
     countClick++;
     console.log('countClick', countClick);
-    return verifyNumberOfClicks(1);
-}
-
-/**
- * Verifica se é a segunda carta do par a ser mostrada.
- */
-function isSecondCardOfPair() {
-    return verifyNumberOfClicks(2);
+    return countClick === 1 ? true : false;
 }
 
 /**
@@ -97,6 +83,20 @@ function disabledAllClick() {
     $('.closed').addClass('disabled-click')
 }
 
+/**
+ * Verifica se o par é igual ou não
+ */
+function isMatchPair(currentIconDisplayed) {
+    return currentIconDisplayed === lastIconDisplayed ? true : false;
+}
+
+/**
+ * Marca as cartas iguais
+ */
+function addMatchClass(currentCard) {
+    $(`#${currentCard}`).addClass('match');
+    $(`#${lastCardClicked}`).addClass('match');
+}
 
 
 /**
@@ -151,11 +151,15 @@ $('.card').click(function () {
         lastCardClicked = id;
         lastIconDisplayed = iconDisplayed;
         disabledClick(id);
-    } else  if (isSecondCardOfPair()){
+    } else {
         console.warn('segundo click', id, iconDisplayed);
         disabledClick(id);
         disabledAllClick();
-    } else {
-        console.warn('outro click');
+        if (isMatchPair(iconDisplayed)) {
+            console.log('is match!!');
+            addMatchClass(id);
+        } else {
+            console.log('not match.');
+        }
     }
 });
