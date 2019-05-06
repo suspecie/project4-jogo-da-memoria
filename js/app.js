@@ -60,6 +60,14 @@ function showCard(id) {
 }
 
 /**
+ * Fecha a carta
+ */
+function closedCard(id) {
+    $(`#${id}`).addClass('closed');
+    $(`#${id}`).removeClass('open');
+}
+
+/**
  * Verifica se é a primeira carta do par a ser mostrada.
  */
 function isFirstCardOfPair() {
@@ -99,13 +107,29 @@ function addMatchClass(currentCard) {
 }
 
 /**
- * Marca  as cartas que não são iguais
+ * Marca as cartas que não são iguais
  */
 function addWrongClass(currentCard) {
     $(`#${currentCard}`).addClass('wrong');
     $(`#${lastCardClicked}`).addClass('wrong');
 }
 
+/**
+ * Vira as cartas erradas.
+ */
+function turnWrongCards(currentCard) {
+    closedCard(currentCard);
+    closedCard(lastCardClicked);
+}
+
+/**
+ * Reinica as variaveis.
+ */
+function reset() {
+    countClick = 0;
+    lastCardClicked = '';
+    lastIconDisplayed = '';
+}
 
 /**
  * Verifica se a dupla de cartas são iguais.
@@ -169,6 +193,9 @@ $('.card').click(function () {
         } else {
             console.log('not match.');
             addWrongClass(id);
+            setTimeout(function() {
+                turnWrongCards(id);
+            });
         }
     }
 });
