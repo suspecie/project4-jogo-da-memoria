@@ -139,3 +139,32 @@ button {
     color: #fff;
     cursor: pointer;
 }
+
+h1 {
+    text-align: center;
+}
+
+.stars {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    margin: 20px;
+}
+
+li {
+    font-size: 18px;
+    padding: 2px;
+}
+
+.pontuation {
+    width: 70%;
+    text-align: center;
+}
+
+.restart {
+    width: 30%;
+}
+
+.fa-repeat {
+    padding: 23px;
+}
