@@ -4,6 +4,7 @@
 let countClick = 0;
 let lastCardClicked = '';
 let lastIconDisplayed = '';
+let countMoves = 0;
 
 
 /**
@@ -192,8 +193,35 @@ function startNewGame() {
     closedAllCards();
     resetVariables();
     addClassOrder();
+    resetMoves();
     hideCongratulationsMessage();
 }
+
+/**
+ * Conta a quantidade de movimentações a cada par virado.
+ */
+function increaseMoves() {
+    return ++countMoves;
+}
+
+/**
+ * Reseta a quantidade de movimentações.
+ */
+function resetMoves() {
+    countMoves = 0;
+    $('.moves').text('Nenhuma movimentação');
+}
+
+
+/**
+ * Altera a quantidade de movimentações na tela.
+ */
+function showMoves() {
+    const qtd = increaseMoves();
+    const textMoves = qtd === 1 ? 'movimentação' : 'movimentações';
+    $('.moves').text(`${qtd} ${textMoves}`);
+}
+
 
 /**
  * Inicia o Jogo embaralhando as cartas.
@@ -217,6 +245,7 @@ $('.card').click(function () {
         console.warn('segundo click', id, iconDisplayed);
         disabledClick(id);
         disabledAllClick();
+        showMoves();
         if (isMatchPair(iconDisplayed)) {
             console.log('is match!!');
             addMatchClass(id);
