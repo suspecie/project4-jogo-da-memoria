@@ -168,3 +168,7 @@ li {
 .fa-repeat {
     padding: 23px;
 }
+
+#stopwatch {
+    text-align: center;
+}

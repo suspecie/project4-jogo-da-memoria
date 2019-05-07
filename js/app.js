@@ -222,12 +222,41 @@ function showMoves() {
     $('.moves').text(`${qtd} ${textMoves}`);
 }
 
+/**
+ * Cronometra o tempo.
+ */
+function stopwatch() {
+    let s = 0;
+    let m = 0;
+    setInterval(function () {
+        const seconds = Math.floor((1000 * s) / 1000);
+
+        let secondsFormat = 00;
+
+        if (seconds < 10) {
+            secondsFormat = `0${seconds}`;
+        } else if (seconds < 60) {
+            secondsFormat = `${seconds}`;
+        } else {
+            s = 0;
+            secondsFormat = 00;
+            m++;
+            minutesFormat = `0${m}`;
+        }
+        s++;
+        $('time').text(`00:${minutesFormat}:${secondsFormat}`);
+
+    }, 1000);
+}
+
 
 /**
- * Inicia o Jogo embaralhando as cartas.
+ * Inicia o Jogo embaralhando as cartas
+ * e inicia o cronometro.
  */
 $(function () {
     addClassOrder();
+    stopwatch();
 });
 
 /**
@@ -236,7 +265,7 @@ $(function () {
 $('.card').click(function () {
     const id = $(this).attr('id');
     const iconDisplayed = showCard(id);
-    if(isFirstCardOfPair()){
+    if (isFirstCardOfPair()) {
         console.warn('primeiro click', id, iconDisplayed);
         lastCardClicked = id;
         lastIconDisplayed = iconDisplayed;
@@ -256,7 +285,7 @@ $('.card').click(function () {
         } else {
             console.log('not match.');
             addWrongClass(id);
-            setTimeout(function() {
+            setTimeout(function () {
                 turnWrongCards(id);
             }, 2000);
         }
