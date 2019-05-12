@@ -33,3 +33,5 @@ Se o jogador ultrapassar 14 movimentações, ganhará 1 estrela.
 
 
 ![](img/jogodamemoria_hd.gif)
+![](img/jogo.gif)
+
