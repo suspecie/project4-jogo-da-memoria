@@ -301,8 +301,8 @@ function startStopwatch() {
         let m = 0;
         interval = setInterval(function () {
             let seconds = Math.floor((1000 * s) / 1000);
-            let minutesFormat = 00;
-            let secondsFormat = 00;
+            let minutesFormat = 0;
+            let secondsFormat = 0;
             if (seconds < 10) {
                 secondsFormat = `0${seconds}`;
             } else if (seconds < 60) {
