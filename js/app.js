@@ -7,6 +7,7 @@ let lastIconDisplayed = '';
 let countMoves = 0;
 let firstClick = 0;
 let interval;
+let countStars = 3;
 
 /**
  * Embaralha o array.
@@ -167,6 +168,7 @@ function showCongratulationsMessage() {
     $('#congratulations-message').removeClass('not-show');
     $('#pack-cards').addClass('not-show');
     $('header').addClass('not-show');
+    showStartsQty();
 }
 
 /**
@@ -191,6 +193,7 @@ function gameContinues() {
  * Começa um novo jogo
  */
 function startNewGame() {
+    resetStars();
     resetStopwatch();
     closedAllCards();
     resetVariables();
@@ -231,6 +234,53 @@ function resetStopwatch() {
     firstClick = 0;
     $('time').text('00:00:00');
 }
+
+/**
+ * Remove a estrela
+ */
+function removeStar(position) {
+    const star = $(position).hasClass('fa fa-star');
+    if (star) {
+        countStars--;
+        $(position).removeClass('fa fa-star');
+        $(position).addClass('far fa-star');
+    }
+}
+
+/**
+ * Troca as estrelas de acordo com as movimentacoes
+ * até 8 movimentações permanece com 3 estrelas
+ * 9 até 13 movimentações fica com 2 estrelas
+ * 14 ou mais fica com 1 estrela.
+ */
+function decreaseStars() {
+    if (countMoves > 8 && countMoves <= 13) {
+        removeStar('.first-star');
+    } 
+    
+    if (countMoves > 13) {
+        removeStar('.second-star');
+    }
+}
+
+/**
+ * Mostra a quantidade final de estrelas.
+ */
+function showStartsQty() {
+    const textStars = countStars === 1 ? 'estrela' : 'estrelas';
+    $('.star-pontuation').text(`${countStars} ${textStars}`);
+}
+
+/**
+ * Reseta a quantidade de estrelas.
+ */
+function resetStars() {
+    countStars = 3;
+    $('.star').removeClass('far fa-star');
+    $('.star').addClass('fa fa-star');
+
+}
+
 
 /**
  * Cronometra o tempo
@@ -304,6 +354,7 @@ $('.card').click(function () {
         disabledClick(id);
         disabledAllClick();
         showMoves();
+        decreaseStars();
         if (isMatchPair(iconDisplayed)) {
             console.log('is match!!');
             addMatchClass(id);
