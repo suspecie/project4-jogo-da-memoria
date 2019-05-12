@@ -156,8 +156,13 @@ function resetVariables() {
  * Vira as cartas erradas.
  */
 function turnWrongCards(currentCard) {
-    closedCard(currentCard);
-    closedCard(lastCardClicked);
+    if (currentCard) {
+        closedCard(currentCard);
+    }
+
+    if (lastCardClicked) {
+        closedCard(lastCardClicked);
+    }
     resetVariables();
 }
 
@@ -257,8 +262,8 @@ function removeStar(position) {
 function decreaseStars() {
     if (countMoves > 8 && countMoves <= 13) {
         removeStar('.first-star');
-    } 
-    
+    }
+
     if (countMoves > 13) {
         removeStar('.second-star');
     }
