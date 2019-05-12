@@ -85,6 +85,7 @@ function closedCard(id) {
 function closedAllCards() {
     $('.card').removeClass('open');
     $('.card').removeClass('match');
+    $('.card').removeClass('wrong');
     $('.card').addClass('closed');
 }
 
@@ -193,9 +194,10 @@ function gameContinues() {
  * Começa um novo jogo
  */
 function startNewGame() {
+    closedAllCards();
     resetStars();
     resetStopwatch();
-    closedAllCards();
+    stopStopwatch();
     resetVariables();
     addClassOrder();
     resetMoves();

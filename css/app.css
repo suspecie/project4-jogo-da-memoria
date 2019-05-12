@@ -166,7 +166,9 @@ li {
 }
 
 .fa-redo {
-    padding: 23px;
+    font-size: 30px;
+    margin-top: 14px;
+    cursor: pointer;
 }
 
 #stopwatch {
