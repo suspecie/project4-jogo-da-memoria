@@ -5,7 +5,8 @@ let countClick = 0;
 let lastCardClicked = '';
 let lastIconDisplayed = '';
 let countMoves = 0;
-
+let firstClick = 0;
+let interval;
 
 /**
  * Embaralha o array.
@@ -190,6 +191,7 @@ function gameContinues() {
  * Começa um novo jogo
  */
 function startNewGame() {
+    resetStopwatch();
     closedAllCards();
     resetVariables();
     addClassOrder();
@@ -223,32 +225,59 @@ function showMoves() {
 }
 
 /**
- * Cronometra o tempo.
+ * Reseta as variaveis do cronometro
  */
-function stopwatch() {
-    let s = 0;
-    let m = 0;
-    setInterval(function () {
-        const seconds = Math.floor((1000 * s) / 1000);
-
-        let secondsFormat = 00;
-
-        if (seconds < 10) {
-            secondsFormat = `0${seconds}`;
-        } else if (seconds < 60) {
-            secondsFormat = `${seconds}`;
-        } else {
-            s = 0;
-            secondsFormat = 00;
-            m++;
-            minutesFormat = `0${m}`;
-        }
-        s++;
-        $('time').text(`00:${minutesFormat}:${secondsFormat}`);
-
-    }, 1000);
+function resetStopwatch() {
+    firstClick = 0;
+    $('time').text('00:00:00');
 }
 
+/**
+ * Cronometra o tempo
+ * iniciando no primeiro click,
+ * se o jogo durar mais que uma hora
+ * inicia um novo jogo automaticamente.
+ */
+function startStopwatch() {
+    firstClick++;
+    if (firstClick === 1) {
+        let s = 0;
+        let m = 0;
+        interval = setInterval(function () {
+            let seconds = Math.floor((1000 * s) / 1000);
+            let minutesFormat = 00;
+            let secondsFormat = 00;
+            if (seconds < 10) {
+                secondsFormat = `0${seconds}`;
+            } else if (seconds < 60) {
+                secondsFormat = `${seconds}`;
+            } else {
+                s = 0;
+                seconds = 0;
+                secondsFormat = `0${seconds}`;
+                m++;
+            }
+
+            if (m < 10) {
+                minutesFormat = `0${m}`;
+            } else if (m < 60) {
+                minutesFormat = `${m}`;
+            } else {
+                startNewGame();
+            }
+            s++;
+            $('time').text(`00:${minutesFormat}:${secondsFormat}`);
+
+        }, 1000);
+    }
+}
+
+/**
+ * Para o cronometro do jogo.
+ */
+function stopStopwatch() {
+    clearInterval(interval);
+}
 
 /**
  * Inicia o Jogo embaralhando as cartas
@@ -256,7 +285,6 @@ function stopwatch() {
  */
 $(function () {
     addClassOrder();
-    stopwatch();
 });
 
 /**
@@ -265,6 +293,7 @@ $(function () {
 $('.card').click(function () {
     const id = $(this).attr('id');
     const iconDisplayed = showCard(id);
+    startStopwatch();
     if (isFirstCardOfPair()) {
         console.warn('primeiro click', id, iconDisplayed);
         lastCardClicked = id;
@@ -280,6 +309,7 @@ $('.card').click(function () {
             addMatchClass(id);
             resetVariables();
             if (!gameContinues()) {
+                stopStopwatch();
                 showCongratulationsMessage();
             }
         } else {
