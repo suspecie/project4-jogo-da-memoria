@@ -27,8 +27,12 @@ A cada par de cartas viradas é contada como 1 movimentação.
 
 ### PONTUAÇÃO DE ESTRELAS
 O jogo é iniciado com 3 estrelas.
+
 Se o jogador finalizar o jogo com até 8 movimentações, ganhará 3 estrelas.
+
 Se o jogador fizer de 9 até 13 movimentações, ganhará 2 estrelas.
+
 Se o jogador ultrapassar 14 movimentações, ganhará 1 estrela.
+
 
 ![](img/jogodamemoria.gif)
