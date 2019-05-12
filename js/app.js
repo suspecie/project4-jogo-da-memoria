@@ -94,7 +94,6 @@ function closedAllCards() {
  */
 function isFirstCardOfPair() {
     countClick++;
-    console.log('countClick', countClick);
     return countClick === 1 ? true : false;
 }
 
@@ -347,18 +346,15 @@ $('.card').click(function () {
     const iconDisplayed = showCard(id);
     startStopwatch();
     if (isFirstCardOfPair()) {
-        console.warn('primeiro click', id, iconDisplayed);
         lastCardClicked = id;
         lastIconDisplayed = iconDisplayed;
         disabledClick(id);
     } else {
-        console.warn('segundo click', id, iconDisplayed);
         disabledClick(id);
         disabledAllClick();
         showMoves();
         decreaseStars();
         if (isMatchPair(iconDisplayed)) {
-            console.log('is match!!');
             addMatchClass(id);
             resetVariables();
             if (!gameContinues()) {
@@ -366,7 +362,6 @@ $('.card').click(function () {
                 showCongratulationsMessage();
             }
         } else {
-            console.log('not match.');
             addWrongClass(id);
             setTimeout(function () {
                 turnWrongCards(id);
