@@ -34,3 +34,12 @@ Se o jogador ultrapassar 14 movimentações, ganhará 1 estrela.
 
 ![](img/jogo.gif)
 
+# REVISÃO UDACITY
+
+![](img/revisaoUdacity/1.png)
+
+![](img/revisaoUdacity/codereview_1.png)
+
+![](img/revisaoUdacity/codereview_2.png)
+
+
